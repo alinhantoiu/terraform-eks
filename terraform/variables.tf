@@ -22,3 +22,8 @@ variable "cluster_name" {
   description = "Name of the EKS cluster"
   type        = string
 }
+variable "eks_endpoint_access_cidrs" {
+  description = "CIDR block(s) allowed to access the EKS API endpoint"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]  # Default allows public access from anywhere (not recommended for production)
+}

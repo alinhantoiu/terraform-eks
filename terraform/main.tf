@@ -5,3 +5,24 @@ module "eks" {
   public_subnet_ids  = var.public_subnet_ids
   cluster_name       = var.cluster_name
 }
+
+
+# Use eks-blueprints-addons module in order to install eks add-ons
+module "eks_addons" {
+  source            = "aws-ia/eks-blueprints-addons/aws"
+  cluster_name      = module.eks.eks_cluster_name
+  cluster_version   = module.eks.eks_cluster_version
+  cluster_endpoint  = module.eks.eks_cluster_endpoint
+  oidc_provider_arn = module.eks.oidc_provider_arn 
+
+  eks_addons = {
+    vpc-cni = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+  }
+
+  depends_on = [module.eks]
+}

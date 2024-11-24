@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 resource "aws_iam_role" "eks_cluster" {
   name = "${var.cluster_name}-eks-role"
 
@@ -30,9 +34,10 @@ resource "aws_eks_cluster" "main" {
   role_arn = aws_iam_role.eks_cluster.arn
 
   vpc_config {
-    subnet_ids             = concat(var.private_subnet_ids, var.public_subnet_ids)
+    subnet_ids              = concat(var.private_subnet_ids, var.public_subnet_ids)
     endpoint_private_access = true
     endpoint_public_access  = true
+    public_access_cidrs     = var.eks_endpoint_access_cidrs
   }
 
   depends_on = [aws_iam_role_policy_attachment.eks_policy_attach]
