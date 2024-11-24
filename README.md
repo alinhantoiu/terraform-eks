@@ -12,10 +12,15 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 
+Install kubectl
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
 Create an IAM User
 
 Log in to the AWS Management Console.
-Go to IAM > Users > Add users.
+Go to IAM > Users > Create user.
 Name the user (e.g., terraform-user) and enable Programmatic access to generate an Access Key ID and Secret Access Key.
 Attach the AdministratorAccess policy for full access and create an Access Key
 
