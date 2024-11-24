@@ -44,4 +44,4 @@ terraform apply -auto-approve
 ### Configure kubectl
 
 aws eks --region $(terraform output -raw region) update-kubeconfig \
-    --name $(terraform output -raw cluster_name)
+    --name $(terraform output -raw eks_cluster_name)
