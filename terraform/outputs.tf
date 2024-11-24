@@ -14,6 +14,10 @@ output "eks_cluster_arn" {
   value = module.eks.eks_cluster_arn
 }
 
+output "eks_cluster_certificate" {
+  value = module.eks.eks_cluster_certificate_authority
+}
+
 output "region" {
   description = "AWS region"
   value       = var.aws_region

@@ -6,7 +6,6 @@ module "eks" {
   cluster_name       = var.cluster_name
 }
 
-
 # Use eks-blueprints-addons module in order to install eks add-ons
 module "eks_addons" {
   source            = "aws-ia/eks-blueprints-addons/aws"
@@ -14,6 +13,7 @@ module "eks_addons" {
   cluster_version   = module.eks.eks_cluster_version
   cluster_endpoint  = module.eks.eks_cluster_endpoint
   oidc_provider_arn = module.eks.oidc_provider_arn 
+  enable_karpenter  = true
 
   eks_addons = {
     vpc-cni = {
