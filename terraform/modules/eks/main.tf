@@ -46,7 +46,6 @@ resource "aws_eks_cluster" "main" {
   depends_on = [aws_iam_role_policy_attachment.eks_policy_attach]
 }
 
-
 ### IAM role for bootstrap node groop ### 
 
   resource "aws_iam_role" "node_group_role" {

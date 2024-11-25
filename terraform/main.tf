@@ -15,11 +15,15 @@ module "eks_addons" {
   oidc_provider_arn = module.eks.oidc_provider_arn 
   enable_karpenter  = true
 
+
   eks_addons = {
     vpc-cni = {
       most_recent = true
     }
     kube-proxy = {
+      most_recent = true
+    }
+    coredns = {
       most_recent = true
     }
   }
