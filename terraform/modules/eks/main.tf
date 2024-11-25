@@ -46,6 +46,41 @@ resource "aws_eks_cluster" "main" {
   depends_on = [aws_iam_role_policy_attachment.eks_policy_attach]
 }
 
+### Enable IAM roles for service accounts ###
+
+data "tls_certificate" "main" {
+  url = aws_eks_cluster.main.identity[0].oidc[0].issuer
+}
+
+resource "aws_iam_openid_connect_provider" "main" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.main.certificates[0].sha1_fingerprint]
+  url             = data.tls_certificate.main.url
+}
+
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.main.url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:kube-system:aws-node"]
+    }
+
+    principals {
+      identifiers = [aws_iam_openid_connect_provider.main.arn]
+      type        = "Federated"
+    }
+  }
+}
+
+resource "aws_iam_role" "main" {
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+  name               = "eks-sandbox-iam-role"
+}
+
 ### IAM role for bootstrap node groop ### 
 
   resource "aws_iam_role" "node_group_role" {
