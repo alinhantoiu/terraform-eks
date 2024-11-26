@@ -9,10 +9,11 @@ module "eks" {
 # Use eks-blueprints-addons module in order to install eks add-ons
 module "eks_addons" {
   source            = "aws-ia/eks-blueprints-addons/aws"
+  version           = "1.19.0"
   cluster_name      = module.eks.eks_cluster_name
   cluster_version   = module.eks.eks_cluster_version
   cluster_endpoint  = module.eks.eks_cluster_endpoint
-  oidc_provider_arn = module.eks.oidc_provider_arn 
+  oidc_provider_arn = replace(module.eks.oidc_provider_arn, "https://", "")
   enable_karpenter  = true
 
 
