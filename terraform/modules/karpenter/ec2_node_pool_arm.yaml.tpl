@@ -1,14 +1,17 @@
 apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
-  name: default
+  name: ${name}-arm
 spec:
   template:
     spec:
+      taints:
+        - key: architecture/arm
+          effect: NoSchedule
       requirements:
         - key: kubernetes.io/arch
           operator: In
-          values: ["amd64"]
+          values: ["arm"]
         - key: kubernetes.io/os
           operator: In
           values: ["linux"]
@@ -17,16 +20,16 @@ spec:
           values: ["on-demand"]
         - key: karpenter.k8s.aws/instance-category
           operator: In
-          values: ["m"]
+          values: [${arm_instance_category}] 
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
-          values: ["2"]
+          values: ["1"]
       nodeClassRef:
         apiVersion: karpenter.k8s.aws/v1beta1
         kind: EC2NodeClass
-        name: default
+        name: ${name}-arm
   limits:
-    cpu: 1
+    cpu: ${arm_limits_cpu}
   disruption:
     consolidationPolicy: WhenUnderutilized
     expireAfter: 720h # 30 * 24h = 720h

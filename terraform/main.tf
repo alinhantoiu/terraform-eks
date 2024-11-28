@@ -28,17 +28,33 @@ module "eks_addons" {
     }
   }
 
+  tags = {
+    module = "eks-blueprints-addons"
+  }
+
   depends_on = [module.eks]
 }
 
 module "karpenter" {
-  source             = "./modules/karpenter"
-  name               = var.name
-  ami_family         = var.ami_family
-  ami_id             = var.ami_id
-  private_subnet_ids = var.private_subnet_ids
-  eks_security_group = module.eks.eks_security_groups
+  source                  = "./modules/karpenter"
+  name                    = var.name
+  ami_family              = var.ami_family
+  ami_id_arm              = var.ami_id_arm
+  ami_id_amd64            = var.ami_id_amd64
+  private_subnet_ids      = var.private_subnet_ids
+  eks_security_group      = module.eks.eks_security_groups
+  node_aws_iam_role       = join(",", data.aws_iam_roles.roles.names)
+  amd64_limits_cpu        = var.amd64_limits_cpu
+  amd64_instance_category = join(",", var.amd64_instance_category)
+  arm_limits_cpu          = var.arm_limits_cpu
+  arm_instance_category   = join(",", var.arm_instance_category)
 
+
+  depends_on = [module.eks_addons]
+}
+
+data "aws_iam_roles" "roles" {
+  name_regex  = "karpenter-eks-sandbox-.*"
 
   depends_on = [module.eks_addons]
 }

@@ -22,3 +22,7 @@ output "region" {
   description = "AWS region"
   value       = var.aws_region
 }
+
+output "karpenter_role_name" {
+  value = data.aws_iam_roles.roles.names
+}

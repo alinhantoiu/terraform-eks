@@ -26,3 +26,7 @@ output "eks_security_groups" {
   value = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
   description = "Security group IDs for the EKS control plane"
 }
+
+output "node_aws_iam_role" {
+  value = aws_iam_role.node_group_role.name
+}

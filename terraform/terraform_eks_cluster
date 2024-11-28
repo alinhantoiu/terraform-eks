@@ -1,0 +1,29 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJYVdLa0RaZCtLa3d3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRFeE1qZ3hOVEExTURsYUZ3MHpOREV4TWpZeE5URXdNRGxhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURhc0ExdGJCNnFDNFBqOUdTTGFMcFFNYjhTN09qK2lSc0R2SW9kTEVvemtadEhCUFNIazlXenI0a0IKR1lUdUFNZlhzVVNjK1dnOExtR29Dc291eGlYR0tUTVhXU01oTjdTUnlGSlBlZCs4RXFXZmFhQzgwTXdnZ1dHSAp6YzM2ODgzR0tUdzBaanpTR2Z5ckFIVXd6VnBwR3ZnUXplNjhRNmt6YU1vQU4vMXZQaFJVZDY1ME4xRDRwTzgwCmlkNTZvMlkyVjc5RzAvSU1Nd2gxbzZuMXVra2RFejZkVzI2VFJuMjhxMURCZ3dKWU1PdjZuMlFnYzlRV2ZXMEgKbnl5a3plamRCWjNTMm1pNEppcUNycEJKL0NvSlJiZHMzckNPcDFSMTVFdTBTYzRUQVEyVkpFVGYzcWxCeng4SApISStjZXdxcFpoOXJDOE0yVTF2ZkJJRlNtMzZ4QWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUWDdoemhpSGtrTlhVb3ZBYTNMY1Zvc1VESkdqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ1FsR1dWNmppMQozZGNjSG42WW5wM2ZJbDZnMlAvMUVnRGZpOWVjMWh5SlJrMSs0K0I4VmpmZ1lFaHJzV3F2Y3dYVjlkd1BpZkFVCm1yYjczSWVrK0tKczNmbnhzWThaNXE5RXhxUHNFZTc2VzhabFhaQWsrVXcrenhtM2FWc0xlL1NGK1g2aUU2azAKaEJnY3hXeTE4WXFzNzRXblZwbkIvNmZvZWRNMkkzOUF3MmJ5RlE1WTZPZ3prdzVHK1NhMnVpdGh6TTMxNWhabQpnYkNmMWZwTDJLQ1Q5K0IyN20wT1VHRy9pN2hOeFlRS1FsV2hBWlJBUDhVTVZkd09tZ3IzKzBNYnVGYXpSL2h5CkZlbTdwZ0QrQWExcHlZZzlZZ0pxYVBHeHFPbnY3MG4yaWNkSHVLajNub0pBN29SaEE1VGxaN3h5VW1YYXVsZjQKcG9ScmhNVGkxdUNFCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://D3AAC52BA2D20CDF116F67C212C4B990.gr7.us-east-1.eks.amazonaws.com
+  name: arn:aws:eks:us-east-1:463138460514:cluster/eks-sandbox
+contexts:
+- context:
+    cluster: arn:aws:eks:us-east-1:463138460514:cluster/eks-sandbox
+    user: arn:aws:eks:us-east-1:463138460514:cluster/eks-sandbox
+  name: arn:aws:eks:us-east-1:463138460514:cluster/eks-sandbox
+current-context: arn:aws:eks:us-east-1:463138460514:cluster/eks-sandbox
+kind: Config
+preferences: {}
+users:
+- name: arn:aws:eks:us-east-1:463138460514:cluster/eks-sandbox
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - --region
+      - us-east-1
+      - eks
+      - get-token
+      - --cluster-name
+      - eks-sandbox
+      - --output
+      - json
+      command: aws
