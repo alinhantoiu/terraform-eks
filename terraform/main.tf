@@ -16,7 +16,6 @@ module "eks_addons" {
   oidc_provider_arn = replace(module.eks.oidc_provider_arn, "https://", "")
   enable_karpenter  = true
 
-
   eks_addons = {
     vpc-cni = {
       most_recent = true
@@ -30,4 +29,16 @@ module "eks_addons" {
   }
 
   depends_on = [module.eks]
+}
+
+module "karpenter" {
+  source             = "./modules/karpenter"
+  name               = var.name
+  ami_family         = var.ami_family
+  ami_id             = var.ami_id
+  private_subnet_ids = var.private_subnet_ids
+  eks_security_group = module.eks.eks_security_groups
+
+
+  depends_on = [module.eks_addons]
 }

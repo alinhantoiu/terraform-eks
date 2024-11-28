@@ -34,6 +34,7 @@ resource "aws_iam_role_policy_attachment" "eks_vpc_policy_attach" {
 
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
+  version  = "1.29"
   role_arn = aws_iam_role.eks_cluster.arn
 
   vpc_config {
@@ -44,6 +45,18 @@ resource "aws_eks_cluster" "main" {
   }
 
   depends_on = [aws_iam_role_policy_attachment.eks_policy_attach]
+}
+
+# Generate kube_config file
+
+resource "null_resource" "generate_kubeconfig" {
+  provisioner "local-exec" {
+    command = <<EOT
+    aws eks update-kubeconfig --region ${data.aws_region.current.name} --name ${aws_eks_cluster.main.name} --kubeconfig ./terraform_eks_cluster
+    EOT
+  }
+
+  depends_on = [aws_eks_cluster.main]
 }
 
 ### Enable IAM roles for service accounts ###

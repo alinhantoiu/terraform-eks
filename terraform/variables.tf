@@ -27,3 +27,31 @@ variable "eks_endpoint_access_cidrs" {
   type        = list(string)
   default     = ["0.0.0.0/0"]  # Default allows public access from anywhere (not recommended for production)
 }
+
+# Karpenter variables
+
+variable "name" {
+  default = "default"
+}
+
+variable "ami_family" {
+  default = ""
+}
+
+variable "subnet_id" {
+  default = ""
+}
+
+variable "role" {
+  default = ""
+}
+
+variable "ami_id" {
+  default = ""
+}
+
+variable "eks_security_group" {
+  description = "Security group ID for EKS control plane"
+  type        = string
+  default     = ""
+}
